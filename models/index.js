@@ -1,5 +1,6 @@
 const User = require('./User');
 const Post = require('./Post');
+const Vote = require('./Vote');
 
 // create JOIN associations
 User.hasMany(Post, {
@@ -11,4 +12,35 @@ Post.belongsTo(User, {
     foreignKey: 'user_id',
 });
 
-module.exports = { User, Post };
+// which posts a single user voted on
+User.belongsToMany(Post, {
+    through: Vote,
+    as: 'voted_posts', 
+    // add 'foreign key constraint': to protect the possibility of a single user voting on one post many times
+    foreignKey: 'user_id'
+});
+
+// which users voted on a single post
+Post.belongsToMany(User, {
+    through: Vote,
+    as: 'voted_posts',
+    foreignKey: 'post_id'
+});
+
+Vote.belongsTo(User, {
+    foreignKey: 'user_id'
+});
+
+Vote.belongsTo(Post, {
+    foreignKey: 'post_id'
+});
+
+User.hasMany(Vote, {
+    foreignKey: 'user_id'
+});
+
+Post.hasMany(Vote, {
+    foreignKey: 'post_id'
+});
+
+module.exports = { User, Post, Vote };
