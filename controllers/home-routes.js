@@ -21,6 +21,8 @@ const { Post, User, Comment } = require('../models');
 
 // we'll use the Sequelize 'Post.findAll()' query set up to return all posts and their nested properties from the 'api/post-routes.js'
 router.get('/', (req, res) => {
+    console.log(req.session);
+
     Post.findAll({
         attributes: [
             'id',
@@ -56,6 +58,15 @@ router.get('/', (req, res) => {
         console.log(err);
         res.status(500).json(err);
     });
+});
+
+router.get('/login', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/');
+        return;
+    }
+    
+    res.render('login');
 });
 
 module.exports = router;
