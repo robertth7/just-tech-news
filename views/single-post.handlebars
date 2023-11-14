@@ -1,5 +1,5 @@
 {{!-- handle bars template --}}
-<article class="post">
+{{!-- <article class="post">
     <div class="title">
         <a href="{{post.post_url}}" target="_blank">{{post.title}}</a>
         <span>({{post.post_url}})</span>
@@ -10,7 +10,8 @@
         |
         <a href="/post/{{post.id}}">{{post.comments.length}} comment(s)</a>
     </div>
-</article>
+</article> --}}
+{{> post-info post}}
 
 {{!-- this '{{#if}}' helper will show the form if user is logged in, if not loggedIn, no form will display --}}
 {{#if loggedIn}}
@@ -26,7 +27,7 @@
 </form>
 {{/if}}
 
-<div class="comments">
+{{!-- <div class="comments">
     {{#each post.comments}}
     <section class="comment">
         <div class="meta">
@@ -37,7 +38,10 @@
         </div>
     </section>
     {{/each}}
-</div>
+</div> --}}
+
+{{!-- import the partial now that the div wont be used here any longer --}}
+{{> comments post.comments}}
 
 {{!-- conditionally render script elements --}}
 {{#if loggedIn}}
